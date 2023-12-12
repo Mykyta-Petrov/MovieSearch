@@ -1,5 +1,10 @@
 package com.example.moviesearch.model;
 
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PositiveOrZero;
+import jakarta.validation.constraints.Size;
+
 public class SubmitFormRequest {
     public static enum Types {
         movie,
@@ -7,8 +12,14 @@ public class SubmitFormRequest {
         episode
     }
 
+    @NotEmpty(message = "Title cannot be empty")
+    @Size(min = 5, max = 50)
     private String title;
+
     private Types type;
+
+    @NotNull
+    @PositiveOrZero(message = "Year cannot be negative")
     private int year;
 
     public void setTitle(String title) {

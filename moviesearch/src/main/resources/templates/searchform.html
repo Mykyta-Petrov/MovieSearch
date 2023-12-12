@@ -5,9 +5,15 @@
     <title>Search Movies</title>
 </head>
 <body>
-    <form action="#" th:action="@{/submit}" th:object="${request}" method="post">
-        <p>Title: <input type="text" th:field="*{title}" style="margin-left: 67px;"/></p>
-        <p>Year (optional): <input type="number" th:field="*{year}"/></p>
+    <form action="#" th:action="@{/submit}" th:object="${request}" method="post" id="searchForm">
+        <p>Title:
+            <input type="text" th:field="*{title}" style="margin-left: 67px;"/>
+        </p>
+        <p th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></p>
+        <p>Year (optional):
+            <input type="number" th:field="*{year}"/>
+        </p>
+        <p th:if="${#fields.hasErrors('year')}" th:errors="*{year}"></p>
         <p>Type:
             <select th:field="*{type}" style="margin-left: 65px;">
                 <option
@@ -19,8 +25,10 @@
             </select>
         </p>
         <p>
-            <input type="submit" value="Submit"/>
-            <input type="reset" value="Reset"/>
+            <button type="submit">Submit</button>
+            <a href="/search">
+                <button type="button">Reset</button>
+            </a>
         </p>
     </form>
 </body>
