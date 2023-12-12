@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Search Movies</title>
+</head>
+<body>
+    <form action="#" th:action="@{/submit}" th:object="${request}" method="post">
+        <p>Title: <input type="text" th:field="*{title}" style="margin-left: 67px;"/></p>
+        <p>Year (optional): <input type="number" th:field="*{year}"/></p>
+        <p>Type:
+            <select th:field="*{type}" style="margin-left: 65px;">
+                <option
+                    th:each="type : ${T(com.example.moviesearch.model.SubmitFormRequest.Types).values()}" 
+                    th:value="${type}"
+                    th:text="${type.toString().substring(0, 1).toUpperCase() + type.toString().substring(1)}"
+                    th:selected="${type=='movie'}"
+                ></option>
+            </select>
+        </p>
+        <p>
+            <input type="submit" value="Submit"/>
+            <input type="reset" value="Reset"/>
+        </p>
+    </form>
+</body>
+</html>
