@@ -1,5 +1,7 @@
 package com.example.moviesearch.controller;
 
+import java.util.Map;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -9,9 +11,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.moviesearch.model.SubmitFormRequest;
 import com.example.moviesearch.service.ApiService;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.validation.Valid;
-import reactor.core.publisher.Mono;
 
 @Controller
 public class MovieController {
@@ -33,13 +36,12 @@ public class MovieController {
             return "searchform";
         }
 
-        //model.addAttribute("result", request);
-        //return "searchresult";
-
         try {
-            Mono<String> dataMono = apiService.fetch(request);
-            model.addAttribute("dataMono", dataMono);
-            return "movieresult";
+            String data = apiService.fetch(request);
+            ObjectMapper mapper = new ObjectMapper();
+            Map<String, Object> jsonData = mapper.readValue(data, new TypeReference<Map<String, Object>>(){});
+            model.addAttribute("data", jsonData);
+            return "searchresult";
         }
         catch (Exception ex) {
             System.out.println(ex.getMessage());

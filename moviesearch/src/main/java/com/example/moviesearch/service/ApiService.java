@@ -5,8 +5,6 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 import com.example.moviesearch.model.SubmitFormRequest;
 
-import reactor.core.publisher.Mono;
-
 @Service
 public class ApiService {
     private final String apiUrl = "http://www.omdbapi.com/";
@@ -19,18 +17,19 @@ public class ApiService {
         this.webClient = webClientBuilder.build();
     }
 
-    public Mono<String> fetch(SubmitFormRequest request) {
+    public String fetch(SubmitFormRequest request) {
         String yearQuery = "";
 
         if (request.getYear() > 0) {
             yearQuery = "&y=" + request.getYear();
         }
 
-        String uri = String.format("%s/?apiKey=%s&t=%s&type=%s%s", apiUrl, apiKey, request.getTitle(), request.getType(), yearQuery);
+        String uri = String.format("%s/?apiKey=%s&s=%s&type=%s%s", apiUrl, apiKey, request.getTitle(), request.getType(), yearQuery);
 
         return webClient.get()
             .uri(uri)
             .retrieve()
-            .bodyToMono(String.class);
+            .bodyToMono(String.class)
+            .block();
     }
 }

@@ -13,7 +13,7 @@ public class SubmitFormRequest {
     }
 
     @NotEmpty(message = "Title cannot be empty")
-    @Size(min = 5, max = 50)
+    @Size(min = 4, max = 50)
     private String title;
 
     private Types type;
