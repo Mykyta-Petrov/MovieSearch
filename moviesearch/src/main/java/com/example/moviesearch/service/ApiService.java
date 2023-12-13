@@ -1,9 +1,15 @@
 package com.example.moviesearch.service;
 
+import java.util.Map;
+
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import com.example.moviesearch.model.SubmitFormRequest;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
 public class ApiService {
@@ -17,19 +23,19 @@ public class ApiService {
         this.webClient = webClientBuilder.build();
     }
 
-    public String fetch(SubmitFormRequest request) {
-        String yearQuery = "";
+    public Map<String, Object> fetch(SubmitFormRequest request, Character mode) throws JsonMappingException, JsonProcessingException {
+        String yearQuery = request.getYear() > 0 ? "&y=" + request.getYear() : "";
+        String plotQuery = mode == 't' ? "&plot=full" : "";
+        String uri = String.format("%s/?apiKey=%s&%c=%s&type=%s%s%s", apiUrl, apiKey, mode, request.getTitle(), request.getType(), yearQuery, plotQuery);
 
-        if (request.getYear() > 0) {
-            yearQuery = "&y=" + request.getYear();
-        }
-
-        String uri = String.format("%s/?apiKey=%s&s=%s&type=%s%s", apiUrl, apiKey, request.getTitle(), request.getType(), yearQuery);
-
-        return webClient.get()
+        String data = webClient.get()
             .uri(uri)
             .retrieve()
             .bodyToMono(String.class)
             .block();
+
+        ObjectMapper mapper = new ObjectMapper();
+
+        return mapper.readValue(data, new TypeReference<Map<String, Object>>(){});
     }
 }

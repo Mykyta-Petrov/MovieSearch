@@ -8,7 +8,9 @@
     <div>
         <div th:if="${data['Response']}">
             <p th:text="'Movies found: ' + ${data['totalResults']} + ' (displayed first 10)'"></p>
-            <a href="/search">New search</a>
+            <a href="/search">
+                <button type="button">New search</button>
+            </a>
             <p>Results:</p>
             <ol>
                 <li th:each="movie : ${data['Search']}">
@@ -16,7 +18,7 @@
                     <p th:text="'Title: ' + ${movie['Title']}"></p>
                     <p th:text="'Year: ' + ${movie['Year']}"></p>
                     <p th:text="'Type: ' + ${movie['Type']}"></p>
-                    <a href="#">Details...</a>
+                    <a th:href="@{'/movie?title=' + ${movie['Title']} + '&amp;type=' + ${movie['Type']} + '&amp;year=' + ${movie['Year']}}">Details...</a>
                     <hr/>
                 </li>
             </ol>
@@ -25,6 +27,5 @@
             <p th:text="${data['Error']}"></p>
         </div>
     </div>
-    <a href="/search">New search</a>
 </body>
 </html>

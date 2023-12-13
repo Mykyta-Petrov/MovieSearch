@@ -8,11 +8,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.moviesearch.model.SubmitFormRequest;
 import com.example.moviesearch.service.ApiService;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.validation.Valid;
 
@@ -30,18 +29,17 @@ public class MovieController {
         return "searchform";
     }
     
-    @PostMapping("/submit")
-    public String submitForm(@Valid @ModelAttribute("request") SubmitFormRequest request, BindingResult bindingResult, Model model) {
-        if (bindingResult.hasErrors()) {
-            return "searchform";
-        }
-
+    @GetMapping("/movie")
+    public String searchQuery(@RequestParam("title") String title, @RequestParam("type") String type, @RequestParam("year") int year, Model model) {
         try {
-            String data = apiService.fetch(request);
-            ObjectMapper mapper = new ObjectMapper();
-            Map<String, Object> jsonData = mapper.readValue(data, new TypeReference<Map<String, Object>>(){});
-            model.addAttribute("data", jsonData);
-            return "searchresult";
+            SubmitFormRequest request = new SubmitFormRequest();
+            request.setTitle(title);
+            request.setType(SubmitFormRequest.Types.valueOf(type));
+            request.setYear(year);
+
+            Map<String, Object> data = apiService.fetch(request, 't');
+            model.addAttribute("data", data);
+            return "moviedetails";
         }
         catch (Exception ex) {
             System.out.println(ex.getMessage());
@@ -49,4 +47,20 @@ public class MovieController {
         }
     }
     
+    @PostMapping("/submit")
+    public String submitForm(@Valid @ModelAttribute("request") SubmitFormRequest request, BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            return "searchform";
+        }
+
+        try {
+            Map<String, Object> data = apiService.fetch(request, 's');
+            model.addAttribute("data", data);
+            return "searchresult";
+        }
+        catch (Exception ex) {
+            System.out.println(ex.getMessage());
+            return "error";
+        }
+    }
 }
