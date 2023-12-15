@@ -2,6 +2,7 @@ package com.example.moviesearch.service;
 
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -13,9 +14,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
 public class ApiService {
-    private final String apiUrl = "http://www.omdbapi.com/";
+    
+    @Value("${api.url}")
+    private String apiUrl;
 
-    private final String apiKey = "9c230d35";
+    @Value("${api.key}")
+    private String apiKey;
 
     private final WebClient webClient;
 
