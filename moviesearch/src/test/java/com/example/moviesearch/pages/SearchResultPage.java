@@ -11,10 +11,14 @@ import org.springframework.stereotype.Component;
 import jakarta.annotation.PostConstruct;
 
 @Component
-public class IndexPage {
+public class SearchResultPage {
+    
+    @FindBy(how = How.ID, using = "results")
+    private WebElement resultsDiv;
 
-    @FindBy(how = How.TAG_NAME, using = "button")
-    private WebElement searchButton;
+    public WebElement getResultsDiv() {
+        return resultsDiv;
+    }
 
     @Autowired
     private WebDriver webDriver;
@@ -22,9 +26,5 @@ public class IndexPage {
     @PostConstruct
     public void Init() {
         PageFactory.initElements(webDriver, this);
-    }
-    
-    public void clickSearch() {
-        searchButton.click();
     }
 }

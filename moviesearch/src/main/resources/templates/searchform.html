@@ -7,15 +7,15 @@
 <body>
     <form action="#" th:action="@{/submit}" th:object="${request}" method="post" id="searchForm">
         <p>Title:
-            <input type="text" th:field="*{title}" style="margin-left: 67px;"/>
+            <input id="form-title-input" type="text" th:field="*{title}" style="margin-left: 67px;"/>
         </p>
         <p th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></p>
         <p>Year (optional):
-            <input type="number" th:field="*{year}"/>
+            <input id="form-year-input" type="number" th:field="*{year}"/>
         </p>
         <p th:if="${#fields.hasErrors('year')}" th:errors="*{year}"></p>
         <p>Type:
-            <select th:field="*{type}" style="margin-left: 65px;">
+            <select id="form-type-select" th:field="*{type}" style="margin-left: 65px;">
                 <option
                     th:each="type : ${T(com.example.moviesearch.model.SubmitFormRequest.Types).values()}" 
                     th:value="${type}"
@@ -25,9 +25,9 @@
             </select>
         </p>
         <p>
-            <button type="submit">Submit</button>
+            <button id="submit-button" type="submit">Submit</button>
             <a href="/search">
-                <button type="button">Reset</button>
+                <button id="reset-button" type="button">Reset</button>
             </a>
         </p>
     </form>
