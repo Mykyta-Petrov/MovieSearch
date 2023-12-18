@@ -1,5 +1,10 @@
 package com.example.moviesearch.pages;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -13,6 +18,14 @@ import jakarta.annotation.PostConstruct;
 
 @Component
 public class SearchFormPage {
+
+    @Autowired
+    private WebDriver webDriver;
+
+    @PostConstruct
+    public void Init() {
+        PageFactory.initElements(webDriver, this);
+    }
 
     @FindBy(how = How.ID, using = "form-title-input")
     private WebElement titleInput;
@@ -29,12 +42,20 @@ public class SearchFormPage {
     @FindBy(how = How.ID, using = "reset-button")
     private WebElement resetButton;
 
-    @Autowired
-    private WebDriver webDriver;
+    public WebElement getForm() {
+        try {
+            return webDriver.findElement(By.tagName("form"));
+        } catch (NoSuchElementException e) {
+            return null;
+        }
+    }
 
-    @PostConstruct
-    public void Init() {
-        PageFactory.initElements(webDriver, this);
+    public List<String> getFormValues() {
+        ArrayList<String> values = new ArrayList<String>();
+        values.add(titleInput.getAttribute("value"));
+        values.add(yearInput.getAttribute("value"));
+        values.add(typeSelect.getAttribute("value"));
+        return values;
     }
 
     public void fillAndSubmitForm(String title, String year, String type) {
@@ -43,5 +64,9 @@ public class SearchFormPage {
         Select select = new Select(typeSelect);
         select.selectByValue(type);
         submitButton.click();
+    }
+
+    public void resetForm() {
+        resetButton.click();
     }
 }

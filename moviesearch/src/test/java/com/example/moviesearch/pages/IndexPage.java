@@ -13,9 +13,6 @@ import jakarta.annotation.PostConstruct;
 @Component
 public class IndexPage {
 
-    @FindBy(how = How.TAG_NAME, using = "button")
-    private WebElement searchButton;
-
     @Autowired
     private WebDriver webDriver;
 
@@ -23,7 +20,10 @@ public class IndexPage {
     public void Init() {
         PageFactory.initElements(webDriver, this);
     }
-    
+
+    @FindBy(how = How.TAG_NAME, using = "button")
+    private WebElement searchButton;
+
     public void clickSearch() {
         searchButton.click();
     }
