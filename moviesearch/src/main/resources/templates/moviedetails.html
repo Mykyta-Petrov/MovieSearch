@@ -8,16 +8,16 @@
     <div>
         <div th:if="${data['Response']}">
             <img th:src="${data['Poster']}" alt="Poster" style="max-width: 400px; max-height: 400px;">
-            <h2 th:text="${data['Title']}"></h2>
-            <p th:text="'Genre: ' + ${data['Genre']}"></p>
-            <p th:text="'Title: ' + ${data['Title']}"></p>
-            <p th:text="'Release date: ' + ${data['Released']}"></p>
-            <p th:text="'Country: ' + ${data['Country']}"></p>
-            <p th:text="'Running time: ' + ${data['Runtime']}"></p>
-            <p th:text="'IMDB Rating: ' + ${data['imdbRating']}"></p>
-            <p th:text="'Directed by: ' + ${data['Director']}"></p>
+            <h2 id="details-title" th:text="${data['Title']}"></h2>
+            <p id="details-genre" th:text="'Genre: ' + ${data['Genre']}"></p>
+            <p id="details-type" th:text="'Type: ' + ${data['Type']}"></p>
+            <p id="details-released" th:text="'Release date: ' + ${data['Released']}"></p>
+            <p id="details-country" th:text="'Country: ' + ${data['Country']}"></p>
+            <p id="details-runtime" th:text="'Running time: ' + ${data['Runtime']}"></p>
+            <p id="details-imdbRating" th:text="'IMDB Rating: ' + ${data['imdbRating']}"></p>
+            <p id="details-director" th:text="'Directed by: ' + ${data['Director']}"></p>
             <h3>Plot</h3>
-            <p th:text="${data['Plot']}"></p>
+            <p id="details-plot" th:text="${data['Plot']}"></p>
         </div>
         <div th:unless="${data['Response']}">
             <p th:text="${data['Error']}"></p>

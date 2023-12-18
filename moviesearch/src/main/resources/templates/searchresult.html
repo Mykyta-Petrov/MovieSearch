@@ -15,9 +15,9 @@
             <ol>
                 <li th:each="movie : ${data['Search']}">
                     <img th:src="${movie['Poster']}" alt="Poster" style="max-width: 250px; max-height: 250px;">
-                    <p th:text="'Title: ' + ${movie['Title']}"></p>
-                    <p th:text="'Year: ' + ${movie['Year']}"></p>
-                    <p th:text="'Type: ' + ${movie['Type']}"></p>
+                    <p class="result-title" th:text="'Title: ' + ${movie['Title']}"></p>
+                    <p class="result-year" th:text="'Year: ' + ${movie['Year']}"></p>
+                    <p class="result-type" th:text="'Type: ' + ${movie['Type']}"></p>
                     <a th:href="@{'/movie?title=' + ${movie['Title']} + '&amp;type=' + ${movie['Type']} + '&amp;year=' + ${movie['Year']}}">Details...</a>
                     <hr/>
                 </li>

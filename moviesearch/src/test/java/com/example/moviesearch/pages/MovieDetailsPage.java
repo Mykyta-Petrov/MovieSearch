@@ -1,7 +1,5 @@
 package com.example.moviesearch.pages;
 
-import java.util.List;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
@@ -15,7 +13,7 @@ import org.springframework.stereotype.Component;
 import jakarta.annotation.PostConstruct;
 
 @Component
-public class SearchResultPage {
+public class MovieDetailsPage {
     
     @Autowired
     private WebDriver webDriver;
@@ -27,20 +25,35 @@ public class SearchResultPage {
     
     @FindBy(how = How.TAG_NAME, using = "button")
     private WebElement searchButton;
-    
-    public WebElement getResultsDiv() {
+
+    public WebElement getTitle() {
         try {
-            return webDriver.findElement(By.id("results"));
+            return webDriver.findElement(By.id("details-title"));
         } catch (NoSuchElementException e) {
             return null;
         }
     }
 
-    public WebElement getMovie(int number) {
-        List<WebElement> movies = webDriver.findElements(By.tagName("li"));
+    public WebElement getYear() {
         try {
-            return movies.get(number);
-        } catch (IndexOutOfBoundsException e) {
+            return webDriver.findElement(By.id("details-released"));
+        } catch (NoSuchElementException e) {
+            return null;
+        }
+    }
+
+    public WebElement getType() {
+        try {
+            return webDriver.findElement(By.id("details-type"));
+        } catch (NoSuchElementException e) {
+            return null;
+        }
+    }
+
+    public WebElement getPlot() {
+        try {
+            return webDriver.findElement(By.id("details-plot"));
+        } catch (NoSuchElementException e) {
             return null;
         }
     }
